@@ -12,6 +12,7 @@ import type {
 } from './types/Simulation'
 import type { Session } from './types/Session'
 import type { Channel } from '../../utils/channel'
+import { MasterDataResponse } from './types/Newsletter'
 
 const BASE_INIT = {
   method: 'POST',
@@ -150,6 +151,16 @@ export const VtexCommerce = (
           cookie: ctx.headers.cookie,
         },
         body: '{}',
+      })
+    },
+    addToNewsletter: (data: {
+      name: string
+      email: string
+    }): Promise<MasterDataResponse> => {
+      return fetchAPI(`${base}/api/dataentities/NL/documents/`, {
+        ...BASE_INIT,
+        body: JSON.stringify({ ...data, isNewsletterOptIn: true }),
+        method: 'PATCH',
       })
     },
   }
